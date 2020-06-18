@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use App\Mail\MailPassword;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use App\Providers\RouteServiceProvider;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -82,12 +84,17 @@ class LoginController extends Controller
         $password= mt_rand(10000000,99999999);
 
         //dd($password);
-
-        return User::create([
+        
+        $user =User::create([
             'name'     => $user->name,
             'email'    => $user->email,
             'password' => Hash::make($password),
         ]);
+
+        Mail::queue(new MailPassword($user,$password));
+
+        //dd($user);
+        return $user;
     }
 
     public function showLoginForm()
