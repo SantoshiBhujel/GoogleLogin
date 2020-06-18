@@ -84,14 +84,18 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
+To register with google:
+    composer require laravel/socialite
+Get the google API/ Credentials
+Configure in .env and config/services.php
 
 
+Errors may be :
 Laravel Socialite: InvalidStateException (sometimes)
 Laravel\Socialite\Two\InvalidStateException
 
-replace
+replace:
+    Socialite::driver('google')->user();
 
-Socialite::driver('google')->user();
 to this code
-
-Socialite::driver('google')->stateless()->user();
+    Socialite::driver('google')->stateless()->user();
